@@ -11,9 +11,28 @@ assert.notEqual(oracle.calculate('1986-05-30','00:00').pillars[2],'癸酉');
 for(const date of ['2025-02-29','1899-01-01','2101-01-01','2024-13-01'])assert.throws(()=>oracle.calculate(date,''));
 assert.doesNotThrow(()=>oracle.calculate('2024-02-29','00:00'));
 assert.throws(()=>oracle.calculate('2024-01-01','25:00'));
-const months=oracle.months(new Date(2026,11,15),'en');
-assert.deepEqual(months.map(x=>x.month),['December 2026','January 2027','February 2027']);
+const topics=require('../topics.js');
+// Expected relationship matrix: row = Day Master, column = monthly element.
+const matrix=[
+ ['peer','expression','stewardship','structure','support'],
+ ['support','peer','expression','stewardship','structure'],
+ ['structure','support','peer','expression','stewardship'],
+ ['stewardship','structure','support','peer','expression'],
+ ['expression','stewardship','structure','support','peer']
+];
+for(let day=0;day<5;day++)for(let month=0;month<5;month++)assert.equal(oracle.relation(day,month),matrix[day][month]);
+assert.throws(()=>oracle.relation(-1,0));
+assert.throws(()=>oracle.relation(0,5));
+const months=oracle.rhythm(new Date(2026,11,15),known.index);
+assert.deepEqual(months.map(x=>oracle.monthLabel(x,'en')),['December 2026','January 2027','February 2027']);
+assert.equal(oracle.opening([{relation:'support'},{relation:'structure'},{relation:'stewardship'}]),-1);
+assert.equal(oracle.opening([{relation:'structure'},{relation:'expression'},{relation:'support'}]),1);
+const keys=['health','love','family','career','study','wealth'];
+assert.deepEqual(Object.keys(topics),keys);
+for(const key of keys)for(const relation of Object.keys(oracle.relations))for(const field of ['mood','action','quietAction','watch'])for(const lang of ['en','zh'])assert.ok(topics[key].relations[relation][field][lang].length>10);
+assert.equal(new Set(keys.map(key=>topics[key].relations.structure.mood.en)).size,6);
+assert.notDeepEqual(oracle.rhythm(new Date(2026,9,12),0).map(x=>x.relation),oracle.rhythm(new Date(2026,9,12),4).map(x=>x.relation));
 for(const lang of ['en','zh'])for(const date of ['1990-03-01','2000-02-29','2020-12-31']){
  const chart=oracle.calculate(date,'');assert.ok(chart.index>=0&&chart.index<5);assert.ok(oracle.personalities[chart.index][lang]);
 }
-console.log('Passed: reference chart, unknown time, midnight boundary, leap dates, invalid inputs, bilingual templates and year rollover.');
+console.log('Passed: reference chart, unknown time, midnight boundary, valid dates, all 25 element relations, six distinct topic reports, bilingual completeness, opening selection and month rollover.');
