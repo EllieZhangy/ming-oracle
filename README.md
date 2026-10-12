@@ -7,7 +7,7 @@
 
 Both links use the same responsive website; the layout adapts to your screen.
 
-Discover yourself through the ancient art of Chinese astrology. A bilingual, browser-only Chinese five-element reflection app, with responsive phone and desktop layouts. Open `index.html` directly. No API key, package installation or build is required.
+**The Element Within You.** Explore your nature through the five elements—an ancient lens on a modern life. A bilingual, browser-only Chinese five-element reflection app, with responsive phone and desktop layouts. Open `index.html` directly. No API key, package installation or build is required.
 
 ## Three-page flow
 
@@ -16,6 +16,10 @@ Discover yourself through the ancient art of Chinese astrology. A bilingual, bro
 3. **Your present season & three-month rhythm**: selected-area symbolic outlook, a suggested monthly window, three monthly cards, practical alignment and topic-specific cautions. No generic reflection questionnaire.
 
 The top 01 / 02 / 03 buttons navigate directly to completed steps. Missing information opens the form or topic selection. Back navigation preserves birth inputs and selection. Language switching preserves the page and reading. You can choose another area without entering birth information again. Text export contains nature, selected-area report and methodology. The report ends with an optional **Save as PDF / 保存为 PDF** button. The app never opens the print dialog or saves a file automatically when a reading is generated. Only clicking this button (or using the browser’s print command) opens the print dialog, where you can choose **Save as PDF**. A separate A4 print layout includes the full report and calculation notes. Mobile printing depends on the browser; the same URL adapts to either screen size.
+
+## Visual identity
+
+The paper, muted green and gold palette is preserved. The calculated Day Master selects a subtle pine, flame scroll, mountain, bronze mirror or water motif on result pages. These original SVG ornaments are lightweight, decorative and hidden in PDF printing.
 
 ## Calculation and interpretation boundaries
 
