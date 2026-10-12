@@ -1,6 +1,7 @@
 /* Original symbolic interpretation templates; see README for calculation scope. */
 (function(root){
  const stemElements={'甲':0,'乙':0,'丙':1,'丁':1,'戊':2,'己':2,'庚':3,'辛':3,'壬':4,'癸':4};
+ const yinStems=new Set(['乙','丁','己','辛','癸']);
  function calculate(date,time){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(date))throw new Error('Invalid date');
   const [y,m,d]=date.split('-').map(Number);
@@ -35,17 +36,39 @@
   return 'stewardship';
  }
  // The middle of each civil month is a calendar anchor, not a full flow-month prediction.
- function rhythm(start,day){
+ function rhythm(start,day,count=3){
   if(!(start instanceof Date)||Number.isNaN(start.getTime()))throw new Error('Invalid start date');
-  return Array.from({length:3},(_,i)=>{
+  relation(day,day);
+  if(!Number.isInteger(count)||count<1||count>18)throw new Error('Month count must be between 1 and 18');
+  return Array.from({length:count},(_,i)=>{
    const date=new Date(start.getFullYear(),start.getMonth()+i,15,12);
    const chart=root.Solar.fromYmdHms(date.getFullYear(),date.getMonth()+1,15,12,0,0).getLunar().getEightChar();
    const stem=chart.getMonthGan(); const element=stemElements[stem];
-   return {year:date.getFullYear(),month:date.getMonth()+1,stem,element,relation:relation(day,element)};
+   return {year:date.getFullYear(),month:date.getMonth()+1,stem,element,polarity:yinStems.has(stem)?'yin':'yang',relation:relation(day,element)};
   });
  }
  function monthLabel(item,language){return new Intl.DateTimeFormat(language==='zh'?'zh-CN':'en-US',{year:'numeric',month:'long'}).format(new Date(item.year,item.month-1,1));}
  function opening(items){return items.findIndex((x,i)=>i>0&&['support','peer','expression'].includes(x.relation));}
- root.MingOracle={calculate,personalities,elements,relations,relation,rhythm,monthLabel,opening};
+ // A dated symbolic window, not a prediction that a real-world event will occur.
+ function nextOpening(start,day){
+  rhythm(start,day,1); // Validate before advancing the civil-month anchor.
+  const nextMonth=new Date(start.getFullYear(),start.getMonth()+1,15,12);
+  const items=rhythm(nextMonth,day,18);
+  const index=items.findIndex(x=>['support','peer','expression'].includes(x.relation));
+  if(index===-1)return null;
+  const offset=index+1;
+  return {...items[index],offset,horizon:offset<=2?'near':offset<=5?'quarter':'long'};
+ }
+ function monthReading(topicKey,item,language='en'){
+  if(language!=='en'&&language!=='zh')throw new Error('Unsupported reading language');
+  let topics=root.MingTopics;
+  if(!topics&&typeof module!=='undefined'&&typeof require==='function')topics=require('./topics.js');
+  if(!topics||!Object.prototype.hasOwnProperty.call(topics,topicKey))throw new Error('Unknown reading topic');
+  if(!item||!Object.prototype.hasOwnProperty.call(stemElements,item.stem)||!Object.prototype.hasOwnProperty.call(relations,item.relation))throw new Error('Invalid month reading');
+  const copy=topics[topicKey].relations[item.relation];
+  const quiet=yinStems.has(item.stem);
+  return {title:copy[quiet?'quietTitle':'title'][language],mood:copy[quiet?'quietMood':'mood'][language],action:copy[quiet?'quietAction':'action'][language],watch:copy.watch[language]};
+ }
+ root.MingOracle={calculate,personalities,elements,relations,relation,rhythm,monthLabel,opening,nextOpening,monthReading};
  if(typeof module!=='undefined')module.exports=root.MingOracle;
 })(typeof window!=='undefined'?window:globalThis);

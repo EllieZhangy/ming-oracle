@@ -613,6 +613,61 @@ const topics={
     }
   }
 };
+// Each relation has an outward (yang stem) and inward (yin stem) voice.
+// Adjacent months can share an element while inviting different kinds of practice.
+const monthlyVoices={
+ health:{
+  support:['A softer current returns','柔流回补','Rest gathers beneath the surface','静处蓄养','A quieter replenishing current gathers beneath this month. Give sleep and simple nourishment a little more room; renewal can begin before it becomes visible.','本月，滋养的细流藏在静处。为睡眠与简单的饮食多留一点位置，恢复有时先在看不见的地方开始。'],
+  peer:['Find the rhythm that holds you','寻得稳稳节律','Keep your own gentle pace','守住自己的步调','Familiar rhythms become a quiet anchor. Keep the habit that leaves your body more settled, without borrowing another person’s pace or expectations.','熟悉的节律，是本月安静的锚。守住让身体安稳的习惯，不必借用别人的速度与期待。'],
+  expression:['Let the breath move outward','让呼吸舒展开来','A smaller release goes deeper','轻轻舒展，向内松开','The invitation turns inward: a little stretching, a slower breath, a pause between demands. Choose release that leaves you with energy afterward.','这一月的邀请偏向内在：轻轻伸展、放慢呼吸，在消耗之间留一点空白。让舒展过后，自己仍有余量。'],
+  structure:['Draw a circle around your rest','为休息画一道圈','Loosen the knot in your calendar','松开日程里的结','Pressure is easier to notice when the noise falls away. One obligation may need a gentler shape; let your limits protect the ordinary rhythms that sustain you.','喧闹退下，压力的轮廓更容易看见。一项责任或需要更柔和的形状，让边界守住滋养你的日常。'],
+  stewardship:['Make a home for your energy','为精力安一处家','Let the roots hold','让根系稳稳托住','The current shifts from building a routine to keeping it alive. Tend the one practice that already steadies you; quiet consistency is the image of this month.','这一月的水流，从建立习惯转向守住习惯。照料那件已让你安稳的小事，细水长流是本月的意象。']
+ },
+ love:{
+  support:['Make room to receive warmth','为温柔留一个位置','Let care find you quietly','让关心轻轻靠近','Warmth may be easier to recognize in ordinary gestures than in a grand sign. Let a real kindness reach you, while allowing affection to reveal itself at its own pace.','温柔或藏在普通的举动里，少一些盛大的征兆。接住真实的善意，让感情按自己的步调显露。'],
+  peer:['Meet in the space between you','在彼此之间相遇','The mirror becomes quieter','把关系的镜面放静','The mirror of connection grows quieter this month. Notice whether closeness leaves room for your own voice; a mutual rhythm can be small and still meaningful.','这一月，关系的镜面渐静。留意靠近时自己的声音是否仍有位置，双向的节律可以很轻，也依然有分量。'],
+  expression:['Give the unspoken a voice','给未说出的心意一个声音','A tender truth finds its words','让柔软的真话成形','A feeling is ready for a gentler language. Shape the words before sending them into the world; sincerity can be clear without asking for an immediate answer.','一种感受，正寻找更温柔的语言。先让话语成形，再递向对方；真诚可以清楚，也容得下回应的时间。'],
+  structure:['Give affection a clear threshold','让感情有一道清楚的门槛','Untangle one quiet expectation','理开一份无声期待','An unspoken expectation may be weighing on the bond. Bring one thread into the light, gently and specifically, before trying to understand the entire knot.','未说出的期待，或让关系多了一点重量。先温和、具体地照亮一根线，再慢慢看整个结。'],
+  stewardship:['Tend the bond in small ways','用细小心意照料关系','Let reciprocity take root','让相互回应慢慢扎根','This month turns toward what can be sustained between two people. Keep the gesture that is truly welcomed, and leave enough space for care to travel back to you.','这一月，重心转向两个人能持续守住的事。保留真正被欢迎的举动，也让关心有回到你身边的空间。']
+ },
+ family:{
+  support:['Let the circle carry you','让家的圆圈托住你','Accept the smaller kindness','接住细小的好意','Care enters through practical details this month. A meal, a lift, a shared task: receiving something concrete can ease a burden without asking the whole family to change at once.','本月的关心，从实际的小事进入。一餐饭、一段接送、一次分担，接住具体的帮助，不必一次改变整个家庭。'],
+  peer:['Meet beyond the old roles','在旧角色之外相见','A familiar room, a new listening','熟悉的房间，新的倾听','Shared history asks for slower listening. Meet a family member as they are today; one familiar ritual can hold a little more freedom than it used to.','共同的旧事，邀请更慢一点的倾听。按今天的样子与家人相处，一个熟悉的仪式也可以容下新的自由。'],
+  expression:['Let a kinder word change the room','让温和的话改变屋里的风','Choose the one thread to name','先说清那一根线','Words have more room when they carry one need at a time. A short, thoughtful request can soften the atmosphere while letting old grievances stay outside this conversation.','一次只承载一个需要，话语才有余地。一份简短、认真斟酌的请求，或能让气氛松一些，把旧怨暂放在这次谈话之外。'],
+  structure:['Bring the invisible duties to light','让看不见的责任走到明处','Set down the inherited weight','放下沿袭的重量','The month’s quieter image reveals what has been carried without discussion. Name one duty and a fairer share; care grows steadier when responsibility has a visible shape.','这一月的静处，照见未曾讨论的承担。说清一项责任与更公平的份额，关心有了清楚的形状，也更稳。'],
+  stewardship:['Lay a calmer foundation at home','为家铺一层安稳','Keep one corner of home gentle','守住家里温和的一角','A gentler home begins with a detail that stays tended. Revisit one shared arrangement, let each person hold their part, and allow the atmosphere to settle without forcing harmony.','更温和的家，从一处被持续照料的小事开始。回看一项共同安排，让每个人守住自己的部分，气氛不必靠强求和谐来安顿。']
+ },
+ career:{
+  support:['Prepare the door you want to enter','准备好想走进的那扇门','Strength grows behind the scenes','在幕后蓄一份力量','The current favors work done behind the scenes. Refine the evidence of your skill and listen for useful guidance; preparation gains value when it has a chosen destination.','本月的水流偏向幕后积累。打磨能力的证据，留意有用的指引；准备有了去处，才更有分量。'],
+  peer:['Find the allies who see your work','找到看见你贡献的同伴','Give your contribution a clear name','让自己的贡献有名字','The quieter side of collaboration comes into view. Clarify where your contribution begins and ends; shared momentum feels more grounded when your place in it is visible.','合作较安静的一面，在本月浮现。理清自己的贡献从哪里开始、到哪里结束，让位置清楚，同行才更有落点。'],
+  expression:['Let the work step into the light','让作品走到光里','Choose the room that can hear you','选一间听得见你的房间','Visibility takes a more selective shape this month. One thoughtful presentation to the right audience can honor your work better than scattering it everywhere at once.','这一月，被看见需要一点选择。一份对准合适对象的呈现，或比把作品散向各处更能承接你的努力。'],
+  structure:['Turn pressure into a clear path','把压力整理成路径','Quietly redraw the scope','安静地重画范围','A hidden mismatch between expectation and capacity deserves attention. Review what is already promised, then make one precise adjustment before the pressure becomes your entire horizon.','期待与承载力之间的细小错位，值得留意。先看清已许下的承诺，再调整一处范围，不让压力占满整个视野。'],
+  stewardship:['Choose the opportunity you can hold','选择自己接得住的机会','Let a promising path prove its shape','让可期的路显出形状','An opportunity needs space to reveal its practical shape. Examine the time, resources, and exchange it asks of you; a deliberate pause can be part of moving wisely.','一个机会，需要时间显露现实的形状。看看它要求的时间、资源与交换，有意识的停顿，也是前行的一部分。']
+ },
+ study:{
+  support:['Let understanding find its roots','让理解找到根系','The missing step comes into focus','让缺失的那一步清晰','The month invites a return to the explanation you nearly understood. Patient attention to one missing step can make the surrounding knowledge feel less scattered.','这一月，适合回到那个差一点懂透的讲解。耐心补上缺失的一步，周围的知识也可能不再散乱。'],
+  peer:['Learn in a shared rhythm','在共同节律里学习','Let another question deepen yours','让同伴的问题照深理解','A quieter exchange can deepen what you know. Prepare your own explanation, then listen for the question a study partner sees differently; your progress need not match their speed.','一次安静的交流，可以把理解往深处带。先准备自己的讲解，再听同伴从不同角度提出的问题，进度不必同速。'],
+  expression:['Put what you know into motion','让所学流动起来','A small attempt reveals the edge','用一次小尝试看见边缘','The current turns toward a private trial of what you have learned. Attempt a small task without the notes, then follow the point where your reasoning loses its thread.','这一月的水流，偏向独自检验所学。合上笔记做一次小练习，顺着推理断开的地方，找到下一处需要补足的边缘。'],
+  structure:['Give the deadline a steady rhythm','给期限一段稳稳的节律','Let the essentials come first','先让必要之事落定','The quiet task is selection. Separate what the deadline truly requires from what merely looks impressive; a smaller plan may hold your attention more faithfully.','这一月的静功，是选择。把期限真正需要的，与只是看起来漂亮的分开；小一些的计划，或更能守住专注。'],
+  stewardship:['Choose the knowledge worth tending','选值得照料的学问','Return to the lesson beneath the mistake','回到错误底下的那一课','Depth comes through returning, not adding. Revisit a recent mistake and the skill underneath it; this month’s image is a root strengthened before another branch grows.','深处，来自回返。重看最近的错误与它下面的基础能力，本月的意象是先固一条根，再生一段枝。']
+ },
+ wealth:{
+  support:['Give abundance a steadier foundation','为丰盛铺稳基础','Let the numbers become clear','让数字渐渐清楚','The quieter current favors clarity about what you already have. Check the costs that repeat and the reserves that remain; knowing enough gives your next intention a firmer ground.','这一月的静流，偏向看清已有的资源。核对反复的开支与尚存的储备，知道自己的足够，让下一个心愿更有落点。'],
+  peer:['Keep your own measure of enough','守住自己的足够感','Step back from the borrowed horizon','从借来的标准里退一步','Comparison loses some of its pull when you return to your own circumstances. Review a shared expense and choose a contribution that lets connection and capacity coexist.','回到自己的实际处境，比较的牵引会轻一些。回看一笔共同开支，让分担既容纳联结，也守住承受力。'],
+  expression:['Give your idea a useful shape','给想法一个有用的形状','Test the seed before expanding','先试一粒种，再谈铺开','A smaller test is the image of this month. Let an idea meet real feedback and its actual costs before surrounding it with purchases; usefulness grows through contact with reality.','本月的意象，是一次小试。让想法先遇见真实反馈与实际成本，再添置工具；有用的价值，在接触现实中生长。'],
+  structure:['Make space between money and urgency','在金钱与催促之间留白','Bring the commitments into balance','让已有承诺归于平衡','The quieter work is reconciling what is already promised. Give upcoming payments a clear place and remove one avoidable pressure, so the next decision has room to breathe.','这一月的静功，是理顺已许下的承诺。安顿即将到来的付款，移去一个可避免的压力，让下一次选择有呼吸的余地。'],
+  stewardship:['Let each resource serve an intention','让每份资源有一处心愿','Tend what is already in your hands','照料已经握在手里的资源','This month turns from acquiring toward tending. Revisit where existing resources go, and bring one allocation closer to a goal that matters; the symbol is quiet order, not a promised return.','这一月，从获取转向照料。回看已有资源的去处，让一处安排更靠近重要目标；意象是安静的秩序，并非收益的许诺。']
+ }
+};
+for(const [topicKey,voices] of Object.entries(monthlyVoices)){
+ for(const [relation,voice] of Object.entries(voices)){
+  Object.assign(topics[topicKey].relations[relation],{
+   title:{en:voice[0],zh:voice[1]},
+   quietTitle:{en:voice[2],zh:voice[3]},
+   quietMood:{en:voice[4],zh:voice[5]}
+  });
+ }
+}
 root.MingTopics=topics;
 if(typeof module!=="undefined")module.exports=topics;
 })(typeof window!=="undefined"?window:globalThis);
