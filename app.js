@@ -42,7 +42,7 @@ function renderSeason(){
  const current=rows[0], currentCopy=topic.relations[current.relation];
  const element=MingOracle.elements[reading.chart.index];
  $('report-topic').textContent=topic.title[language];
- $('report-element').textContent=element[language]+' · '+element.symbol;
+ $('report-element').textContent=(language==='zh'?'日主 · ':element.en+' · ')+element.symbol;
  $('question-echo').textContent=reading.question;
  $('season-title').textContent=monthText(current).title;
  $('season-description').textContent=monthText(current).mood;
