@@ -21,6 +21,10 @@ The top 01 / 02 / 03 buttons navigate directly to completed steps. Missing infor
 
 The paper, muted green and gold palette is preserved. The calculated Day Master selects a subtle pine, flame scroll, mountain, bronze mirror or water motif on result pages. These original SVG ornaments are lightweight, decorative and hidden in PDF printing.
 
+## Element interactions
+
+Hover or click the character seal or element name to reveal a small, original ink motif. Wood grows a pine; Fire breathes softly; Earth draws mountain lines; Metal gives a mirror glint; Water reveals ripples. Each effect runs once for three seconds, then returns to the text. Touch and keyboard activation are supported. Repeated inputs do not stack; navigation and element changes cancel old playback. Reduced-motion preferences keep the text static. PDF saving remains optional and user-triggered.
+
 ## Calculation and interpretation boundaries
 
 - Bundled `lunar-javascript` 1.7.7 (MIT), https://github.com/6tail/lunar-javascript. License in `vendor/LICENSE.lunar-javascript`.
@@ -38,6 +42,7 @@ The paper, muted green and gold palette is preserved. The calculated Day Master 
 ```sh
 node tests/oracle.test.cjs
 node tests/month_engine.test.cjs
+node tests/motion.test.cjs
 python3 tests/structure.test.py
 ```
 

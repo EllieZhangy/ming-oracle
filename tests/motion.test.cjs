@@ -1,0 +1,44 @@
+const assert=require('node:assert/strict');
+const {createMotion}=require('../motion.js');
+const glyphs=require('../glyphs.js');
+let clock=0,nextId=1,preferenceHandler;
+const timers=new Map();
+const preference={matches:false,addEventListener(type,fn){preferenceHandler=fn;}};
+const env={MingGlyphs:glyphs,performance:{now:()=>clock},matchMedia:()=>preference,setTimeout(fn,delay){const id=nextId++;timers.set(id,{fn,at:clock+delay});return id;},clearTimeout:id=>timers.delete(id)};
+const motion=createMotion(env);
+function advance(ms){clock+=ms;for(const [id,t] of [...timers])if(t.at<=clock){timers.delete(id);t.fn();}}
+function button(){
+ const classes=new Set(),listeners={};
+ const character={textContent:''},art={innerHTML:''};
+ return {classes,listeners,character,art,dataset:{},attrs:{},classList:{add(...xs){xs.forEach(x=>classes.add(x));},remove(...xs){xs.forEach(x=>classes.delete(x));},toggle(x,on){if(on)classes.add(x);else classes.delete(x);}},querySelector:s=>s==='.glyph-character'?character:art,setAttribute(k,v){this.attrs[k]=v;},addEventListener(k,fn){(listeners[k]||=[]).push(fn);},dispatch(k,event={}){(listeners[k]||[]).forEach(fn=>fn(event));}};
+}
+assert.deepEqual(Object.keys(glyphs),['wood','fire','earth','metal','water']);
+const symbol=button();
+motion.set(symbol,'wood','木','Wood element');
+assert.equal(symbol.character.textContent,'木');
+assert.equal(symbol.classes.has('is-playing'),false,'rendering must not autoplay');
+assert.equal(timers.size,0);
+symbol.dispatch('pointerenter',{pointerType:'touch'});
+assert.equal(timers.size,0,'touch hover must wait for an actual tap');
+symbol.dispatch('pointerenter',{pointerType:'mouse'});
+assert.equal(symbol.classes.has('is-playing'),true);
+assert.equal(timers.size,1);
+symbol.dispatch('click');
+symbol.dispatch('pointerenter',{pointerType:'mouse'});
+assert.equal(timers.size,1,'hover and click may not stack animation timers');
+advance(2999);assert.equal(symbol.classes.has('is-playing'),true);
+advance(1);assert.equal(symbol.classes.has('is-playing'),false,'glyph must return after three seconds');
+assert.equal(motion.play(symbol),false,'immediate retrigger should be suppressed');
+advance(451);symbol.dispatch('click');assert.equal(symbol.classes.has('is-playing'),true,'tap must replay after cooldown');
+motion.set(symbol,'water','水','Water element');
+assert.equal(symbol.classes.has('is-playing'),false,'changing birth element must cancel stale animation');
+assert.equal(timers.size,0);assert.equal(symbol.dataset.glyph,'water');
+assert.equal(symbol.listeners.click.length,1,'rerender must not accumulate click handlers');
+preference.matches=true;preferenceHandler();symbol.dispatch('click');
+assert.equal(symbol.classes.has('motion-reduced'),true);
+advance(320);assert.equal(symbol.classes.has('is-playing'),false);
+preference.matches=false;preferenceHandler();
+symbol.dispatch('click');motion.resetAll();assert.equal(timers.size,0);
+assert.equal(symbol.classes.has('is-playing'),false,'leaving a page must restore its characters');
+assert.throws(()=>motion.set(symbol,'unknown','?', 'Unknown'));
+console.log('Passed: no autoplay, hover/tap, no stacking, timed return, cooldown, element changes, listener stability, reduced motion and navigation reset.');

@@ -31,7 +31,7 @@ js=(p/'app.js').read_text()
 refs=set(re.findall(r"\$\('([^']+)'\)",js))
 assert refs<=set(h.ids), refs-set(h.ids)
 for src in h.scripts:assert (p/src).is_file()
-assert h.scripts==['vendor/lunar.js','topics.js','oracle.js','app.js']
+assert h.scripts==['vendor/lunar.js','topics.js','oracle.js','glyphs.js','motion.js','app.js']
 for key in h.copy:assert len(re.findall(r'\b'+re.escape(key)+r':',js))==2, key
 assert 'Three questions to sit with' not in js
 assert 'What do you know for certain' not in js
