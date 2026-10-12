@@ -1,5 +1,7 @@
 # The Eastern Chart · Ming Oracle
 
+**Live website (mobile & desktop): [The Eastern Chart](https://elliezhangy.github.io/ming-oracle/)**
+
 Discover yourself through the ancient art of Chinese astrology. A bilingual, browser-only Chinese five-element reflection app, with responsive phone and desktop layouts. Open `index.html` directly. No API key, package installation or build is required.
 
 ## Three-page flow
