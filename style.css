@@ -184,7 +184,7 @@ body[data-element="water"] { --element-art: url('assets/element-water.svg'); }
   opacity: .095;
 }
 body:not([data-element]) .element-atmosphere,
-body[data-page="birth"] .element-atmosphere { display: none; }
+body[data-view="birth"] .element-atmosphere { display: none; }
 body > header, body > nav, body > main, body > footer {
   position: relative;
   z-index: 1;

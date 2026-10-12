@@ -10,7 +10,7 @@ const copy={
 function textNode(tag,text,className){const node=document.createElement(tag);node.textContent=text;if(className)node.className=className;return node;}
 function showPage(page){
  currentPage=page;
- document.body.dataset.page=page;
+ document.body.dataset.view=page;
  for(const key of ['birth','nature','season']){
   $(`${key}-page`).hidden=key!==page;
   $(`progress-${key}`).removeAttribute('aria-current');
