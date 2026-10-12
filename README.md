@@ -2,8 +2,8 @@
 
 ## Open the website
 
-- **Mobile：** [Discover Your Chinese Birth Chart](https://elliezhangy.github.io/ming-oracle/)
-- **Desktop：** [Discover Your Chinese Birth Chart](https://elliezhangy.github.io/ming-oracle/)
+- **Mobile：** [Discover Your Birth Chart](https://elliezhangy.github.io/ming-oracle/)
+- **Desktop：** [Discover Your Birth Chart](https://elliezhangy.github.io/ming-oracle/)
 
 Both links use the same responsive website; the layout adapts to your screen.
 
