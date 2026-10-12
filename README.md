@@ -1,6 +1,6 @@
 # Ming Atlas
 
-## Open the website / 打开网页
+## Open the website
 
 - **Mobile：** [Ming Atlas](https://elliezhangy.github.io/ming-oracle/)
 - **Desktop：** [Ming Atlas](https://elliezhangy.github.io/ming-oracle/)
