@@ -1,9 +1,9 @@
-# The Eastern Chart · Ming Oracle
+# Ming Atlas
 
 ## Open the website / 打开网页
 
-- **Mobile / 手机：** [The Eastern Chart](https://elliezhangy.github.io/ming-oracle/)
-- **Desktop / 电脑：** [The Eastern Chart](https://elliezhangy.github.io/ming-oracle/)
+- **Mobile：** [Ming Atlas](https://elliezhangy.github.io/ming-oracle/)
+- **Desktop：** [Ming Atlas](https://elliezhangy.github.io/ming-oracle/)
 
 Both links use the same responsive website; the layout adapts to your screen.
 
