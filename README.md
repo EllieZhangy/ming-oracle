@@ -1,4 +1,4 @@
-# The Eastern Chart · Ming Oracle
+# Ming Atlas
 
 **Discover the element within you.** A bilingual web experience inspired by
 Eastern astrology, with birth-element readings, symbolic reflections, and
@@ -11,16 +11,28 @@ self-reflection through symbolic directions and practices.
 
 ## Website
 
-- **Website · Mobile:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
-- **Website · Desktop:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
+- **Website · Mobile:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
+- **Website · Desktop:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
 - **Earlier rule-based version:** [GitHub Pages](https://elliezhangy.github.io/ming-oracle/)
 
 Phone and desktop use the same responsive Vercel website. Its Production
-branch is `feat/ai-readings`; the server's OpenAI key is configured in Vercel,
+branch is `main`; the server's OpenAI key is configured in Vercel,
 never in frontend code. Real English nature and seasonal requests have been
-verified with fictional test information. `main` and GitHub Pages retain the
-earlier rule-based version.
+verified with fictional test information. The `legacy-static` branch and
+GitHub Pages preserve the earlier rule-based version.
 [Deployment and server configuration](docs/DEPLOY.md) explains the setup.
+
+## Versions and branches
+
+- `main`: the current application and the Vercel Production branch.
+- [`v0.2.0`](https://github.com/EllieZhangy/ming-oracle/releases/tag/v0.2.0): Personal Elemental Reflections.
+- [`legacy-static`](https://github.com/EllieZhangy/ming-oracle/tree/legacy-static): the archived browser-only edition, also published on GitHub Pages.
+- [`v0.1.0`](https://github.com/EllieZhangy/ming-oracle/releases/tag/v0.1.0): Legacy Static Edition.
+
+Develop future changes on short-lived feature branches and merge them into
+`main` after validation. GitHub Releases mark source snapshots; Vercel hosts
+the current website and server. The legacy edition does not call the server
+or interpret the visitor's words with AI.
 
 ## The reading
 
@@ -85,7 +97,7 @@ Use Node.js 22 or newer. There are no npm package dependencies. Python 3 is
 needed only for the existing page-structure test.
 
 ```sh
-git clone --branch feat/ai-readings https://github.com/EllieZhangy/ming-oracle.git
+git clone --branch main https://github.com/EllieZhangy/ming-oracle.git
 cd ming-oracle
 cp .env.example .env
 ```

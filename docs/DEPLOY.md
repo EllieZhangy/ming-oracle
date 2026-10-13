@@ -7,13 +7,16 @@ Vercel's [Node.js Functions](https://vercel.com/docs/functions/runtimes/node-js)
 support the Web Request/Response handler used in `api/reading.mjs`.
 
 A working deployment needs the owner's Vercel account, an OpenAI API key and model access.
-The owner's current deployment serves **`feat/ai-readings`** at
-[ming-oracle-eta.vercel.app](https://ming-oracle-eta.vercel.app/). Production
-tracks that branch. The owner's
+The owner's current deployment serves **`main`** at
+[ming-oracle-eta.vercel.app](https://ming-oracle-eta.vercel.app/). Vercel's
+Production Branch tracks `main`. The owner's
 [environment-variable settings](https://vercel.com/elliezhangy/ming-oracle/settings/environment-variables)
 contain the server secret; saving a changed key requires a new deployment.
 Real English nature and season generation were tested using fictional inputs.
-`main` and GitHub Pages retain the earlier rule-based version.
+The earlier browser-only edition is preserved on `legacy-static` and in the
+`v0.1.0` release. The existing
+[GitHub Pages website](https://elliezhangy.github.io/ming-oracle/) publishes
+`legacy-static`, separately from the current `v0.2.0` application on Vercel.
 
 The steps below also explain how to create a separate deployment for a fork.
 
@@ -26,8 +29,8 @@ The steps below also explain how to create a separate deployment for a fork.
 3. Keep the settings provided by `vercel.json`: **Build Command**
    `npm run build`, **Output Directory** `dist`, and a 60-second maximum duration
    for `api/reading.mjs`.
-4. Add the server variables below, then deploy **`feat/ai-readings`**, using the
-   branch procedure below. An import of `main` does not contain the new API.
+4. Set the Production Branch to **`main`**, add the server variables below, and
+   deploy. Feature branches can use the Preview workflow below.
 
 The static build excludes server source and secrets. Vercel separately bundles
 the function in the root `api/` directory. Do not change the output directory
@@ -35,23 +38,23 @@ to the repository root. These settings follow Vercel's
 [build configuration](https://vercel.com/docs/builds/configure-a-build) and
 [GitHub integration](https://vercel.com/docs/git/vercel-for-github).
 
-## Select the AI branch for the first deployment
+## Production and Preview branches
 
-After connecting the repository, open the project's **Deployments → Create
-Deployment** and supply `feat/ai-readings` as the Git reference. With `main`
-still the production branch, this is a Preview deployment; scope its API key
-to **Preview**. Test the full website there before merging.
+In **Project Settings → Environments → Production → Branch Tracking**, select
+`main`. Commits merged into `main` then use Vercel's normal automatic Production
+deployment flow. Scope the production API key to **Production**.
 
-To make a separate production AI deployment while keeping GitHub Pages on
-`main`, set **Project Settings → Environments → Production → Branch Tracking**
-to `feat/ai-readings`, save, and create a deployment from that branch. Scope its
-key to **Production**. These controls are described in
-[Vercel's Git deployment guide](https://vercel.com/docs/git).
+Develop changes on a feature branch and open a pull request against `main`.
+Vercel can create a Preview deployment for that branch. A manual deployment is
+also available through **Deployments → Create Deployment**, using the feature
+branch as the Git reference. Scope a key to **Preview** only if those previews
+should generate reports. Test both a nature request and a focused season
+request before merging. No merge is needed to test a Preview deployment.
 
-Only after a real nature request and focused season request succeed should the
-AI branch be merged. After merging, set Production Branch Tracking back to
-`main` if you changed it. Future commits on `main` then use the normal automatic
-deployment flow. No merge is needed to test a branch deployment.
+The `legacy-static` branch is an archive and is not a Production or Preview
+branch for the current application. The `v0.1.0` and `v0.2.0` tags preserve
+released source snapshots; branch updates do not move those tags. See
+[Vercel's Git deployment guide](https://vercel.com/docs/git) for branch controls.
 
 ## Configure server environment variables
 
@@ -97,12 +100,16 @@ URL once both reading stages work and it is ready for visitors. Keep the same
 link for phone and desktop;
 the website adapts to the screen.
 
-## Keep the GitHub Pages frontend
+## Preserve the static GitHub Pages edition
 
-GitHub Pages serves frontend files only. To use it with the Vercel backend,
-first verify the production Vercel deployment above and complete the AI branch
-merge when ready to change the Pages website. Then set `config.js` to
-that deployment's **HTTPS origin**, commit the public URL and let Pages publish:
+In GitHub **Settings → Pages**, publish from the **`legacy-static`** branch and
+the **`/ (root)`** folder. This keeps the existing Pages URL available as the
+archived browser-only edition. It uses original rule-based copy, requires no
+API key and does not send reading inputs to the Vercel endpoint.
+
+GitHub Pages serves frontend files only. If a separate frontend for the
+current application is needed in the future, publish its built static assets
+and set its public `config.js` to the verified Vercel **HTTPS origin**:
 
 ```js
 // Replace this example host with the verified production origin.
@@ -113,13 +120,15 @@ Use no `/api/reading` suffix or URL path; the client appends the endpoint.
 The GitHub Pages origin is already allowed by the backend. For another frontend
 origin, add it to `ALLOWED_ORIGINS` and redeploy the backend. Deployment
 protection must allow the intended public frontend to reach the production API.
-Until that connection is configured, the Pages version cannot generate AI
-readings and displays a connection message rather than stock copy.
+Without that connection, a separately published current-version frontend
+cannot generate reports and displays a connection message rather than stock
+copy. This configuration is not needed by the archived `legacy-static` edition.
 
 ## Troubleshoot a reading
 
 - **AI not connected / 503:** check that `OPENAI_API_KEY` is set for the
-  deployment's environment, then redeploy. On Pages, also check `apiBase`.
+  deployment's environment, then redeploy. For a separately hosted current
+  frontend, also check `apiBase`; the archived static edition does not use it.
 - **Origin not allowed / 403:** use the exact frontend origin in
   `ALLOWED_ORIGINS`. A domain with a page path is not an origin.
 - **Provider error / 502:** check the key, API account/model access and provider
