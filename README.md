@@ -1,17 +1,18 @@
 # The Eastern Chart · Ming Oracle
 
-**The Element Within You.** An AI-powered Eastern astrology experience that
-weaves a calculated BaZi birth chart with what is on your mind. Bring a word,
-feeling or current situation; receive a personal reading through the five
-elements, with a quiet ink-and-paper aesthetic.
+**Discover the element within you.** A bilingual web experience inspired by
+Eastern astrology, with birth-element readings, symbolic reflections, and
+subtle ink-inspired interactions.
 
-AI fortune telling here is cultural exploration and self-reflection. The
-reading offers symbolic directions and practices, not guaranteed future events.
+Bring your birth details and a word, feeling or current situation. Explore
+your elemental nature and a personal seasonal reflection, framed by a quiet
+ink-and-paper aesthetic. Readings support cultural exploration and
+self-reflection through symbolic directions and practices.
 
 ## Website
 
-- **AI website · Mobile / 手机:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
-- **AI website · Desktop / 电脑:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
+- **Website · Mobile / 手机:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
+- **Website · Desktop / 电脑:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
 - **Earlier rule-based version:** [GitHub Pages](https://elliezhangy.github.io/ming-oracle/)
 
 Phone and desktop use the same responsive Vercel website. Its Production
@@ -26,13 +27,18 @@ earlier rule-based version.
 1. **Birth & intention:** enter a birth date, optional time and city, and what
    is on your mind.
 2. **Your elemental nature:** see the preliminary pillars and Day Master, with
-   an AI interpretation of the chart and your words. Choose Health, Love,
+   a personal interpretation of the chart and your words. Choose Health, Love,
    Family, Career, Study or Wealth.
 3. **Your present season & three-month rhythm:** receive a focused reading of
    that area, a dated symbolic opening, three distinct monthly directions,
    an alignment practice and a boundary to keep.
 
-The report structure is preserved; the interpretation now comes from AI
+A quiet indeterminate progress line and an approximate 30-second wait message
+accompany generation; the line does not claim a completion percentage. If it
+takes longer, the message updates. Navigation, cancellation and failures stop
+the loading indicator.
+
+The report structure is preserved; the interpretation comes from AI
 instead of assembled stock paragraphs. English and Chinese are supported.
 The 01 / 02 / 03 controls navigate between steps, and completed readings stay
 available in the current page's memory. Loading and connection errors are

@@ -142,7 +142,7 @@ test('incomplete, static, duplicate-month or duplicated-title responses cannot b
 const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
-function pageHarness(origin='http://localhost:8787/'){
+function pageHarness(origin='http://localhost:8787/',fakeTimers=false){
  const markup=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
  class Node{
   constructor(tag,attrs={}){this.tagName=tag;this.attrs={...attrs};this.dataset={};this.children=[];this.listeners={};this.value='';this.hidden='hidden'in attrs;this.disabled='disabled'in attrs;this._text='';this.customValidity='';this.className=attrs.class||'';const classes=new Set();this.classList={add:value=>classes.add(value),remove:value=>classes.delete(value),contains:value=>classes.has(value)};for(const [key,value]of Object.entries(attrs))if(key.startsWith('data-'))this.dataset[key.slice(5)]=value;}
@@ -170,13 +170,47 @@ function pageHarness(origin='http://localhost:8787/'){
  const document={getElementById:id=>ids[id],documentElement:{lang:'en'},body:nodes.find(node=>node.tagName==='body'),querySelectorAll:selector=>nodes.filter(node=>Object.hasOwn(node.attrs,selector.slice(1,-1))),querySelector:selector=>nodes.find(node=>node.className.split(' ').includes(selector.slice(1))),createElement:tag=>new Node(tag),createTextNode:text=>{const node=new Node('#text');node.textContent=text;return node;}};
  const requests=[],windowListeners={};let prints=0;
  const window={location:{href:origin},MING_CONFIG:{apiBase:''},fetch:(url,init)=>new Promise(resolve=>requests.push({url,init,resolve})),scrollTo(){},print(){prints++;},addEventListener:(type,handler)=>(windowListeners[type]||(windowListeners[type]=[])).push(handler)};
- const context=vm.createContext({window,document,URL,Blob,AbortController,setTimeout,clearTimeout,console,MingMotion:{resetAll(){},set(node,key,label){node.textContent=label;}},MingOracle:{elements:[{en:'Wood',zh:'木',symbol:'木'}],calculate:()=>({index:0,pillars:['庚午','庚辰','甲寅','己巳']}),rhythm:start=>Array.from({length:3},(_,offset)=>{const date=new Date(start.getFullYear(),start.getMonth()+offset,15);return {year:date.getFullYear(),month:date.getMonth()+1,stem:'甲',element:0};}),monthLabel:(item,language)=>new Intl.DateTimeFormat(language==='zh'?'zh-CN':'en-US',{year:'numeric',month:'long'}).format(new Date(item.year,item.month-1,1))}});
+ const timers=new Map();let clock=0,nextTimer=0;
+ const schedule=fakeTimers?(fn,delay)=>{const id=++nextTimer;timers.set(id,{fn,due:clock+delay});return id;}:setTimeout;
+ const unschedule=fakeTimers?id=>timers.delete(id):clearTimeout;
+ const advance=ms=>{clock+=ms;for(const [id,timer]of timers)if(timer.due<=clock){timers.delete(id);timer.fn();}};
+ const context=vm.createContext({window,document,URL,Blob,AbortController,setTimeout:schedule,clearTimeout:unschedule,console,MingMotion:{resetAll(){},set(node,key,label){node.textContent=label;}},MingOracle:{elements:[{en:'Wood',zh:'木',symbol:'木'}],calculate:()=>({index:0,pillars:['庚午','庚辰','甲寅','己巳']}),rhythm:start=>Array.from({length:3},(_,offset)=>{const date=new Date(start.getFullYear(),start.getMonth()+offset,15);return {year:date.getFullYear(),month:date.getMonth()+1,stem:'甲',element:0};}),monthLabel:(item,language)=>new Intl.DateTimeFormat(language==='zh'?'zh-CN':'en-US',{year:'numeric',month:'long'}).format(new Date(item.year,item.month-1,1))}});
  vm.runInContext(fs.readFileSync(path.join(__dirname,'../ai-client.js'),'utf8'),context);
  vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8'),context);
  ids['birth-date'].value='1990-04-21';ids['birth-time'].value='09:15';ids['birth-place'].value='London, UK';ids.question.value='I miss someone but hesitate to reach out.';
- return {ids,nodes,requests,window,event:type=>{for(const handler of windowListeners[type]||[])handler();},prints:()=>prints};
+ return {ids,nodes,requests,window,advance,timers,event:type=>{for(const handler of windowListeners[type]||[])handler();},prints:()=>prints};
 }
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
+
+test('indeterminate loading estimate updates honestly and clears on cancellation, errors and completion',async()=>{
+ const page=pageHarness('http://localhost:8787/',true);
+ page.ids['reading-form'].emit('submit');
+ assert.equal(page.ids['nature-wait'].hidden,false);
+ assert.equal(page.ids.personality.attrs['aria-busy'],'true');
+ assert.equal(page.ids['nature-page'].attrs['aria-busy'],undefined);
+ assert.match(page.ids['nature-estimate'].textContent,/about 30 seconds/);
+ assert.equal(page.ids['nature-progress'].attrs['aria-valuenow'],undefined);
+ page.advance(29999);assert.match(page.ids['nature-estimate'].textContent,/about 30 seconds/);
+ page.advance(1);assert.match(page.ids['nature-estimate'].textContent,/Taking a little longer/);
+ page.ids['back-birth'].emit('click');
+ assert.equal(page.ids['nature-wait'].hidden,true);assert.equal(page.requests[0].init.signal.aborted,true);
+ assert.equal(page.ids.personality.attrs['aria-busy'],'false');
+ page.ids['reading-form'].emit('submit');assert.match(page.ids['nature-estimate'].textContent,/about 30 seconds/);
+ page.requests[0].resolve(response(nature()));await flush();assert.equal(page.ids['nature-wait'].hidden,false);
+ page.requests[1].resolve(response(nature()));await flush();assert.equal(page.ids['nature-wait'].hidden,true);
+ page.nodes.find(node=>node.dataset.topic==='love').emit('click');page.ids['continue-season'].emit('click');
+ assert.equal(page.ids['season-wait'].hidden,false);
+ page.requests[2].resolve(response({error:{code:'AI_PROVIDER_ERROR'}},502));await flush();
+ assert.equal(page.ids['season-wait'].hidden,true);assert.equal(page.ids['season-ai-status'].dataset.state,'error');
+ assert.equal(page.ids['season-retry'].hidden,false);assert.equal(page.ids['export-pdf'].disabled,true);
+ page.ids['season-retry'].emit('click');page.ids.language.emit('click');
+ assert.equal(page.requests[3].init.signal.aborted,true);
+ assert.equal(page.ids['season-progress'].attrs['aria-label'],'正在准备你的解读');
+ assert.match(page.ids['season-estimate'].textContent,/约 30 秒/);
+ page.requests[3].resolve(response(season()));await flush();assert.equal(page.ids['season-wait'].hidden,false);
+ page.requests[4].resolve(response(season()));await flush();
+ assert.equal(page.ids['season-wait'].hidden,true);assert.equal(page.timers.size,0);
+});
 
 test('page controller hides unfinished reports, uses AI text safely and only prints on explicit PDF action',async()=>{
  const page=pageHarness();page.ids['reading-form'].emit('submit');
