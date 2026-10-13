@@ -6,11 +6,16 @@ share one Vercel origin, so the browser needs no separate connection setting.
 Vercel's [Node.js Functions](https://vercel.com/docs/functions/runtimes/node-js)
 support the Web Request/Response handler used in `api/reading.mjs`.
 
-This guide does not assert that a live backend already exists. A working
-deployment needs the owner's Vercel account, an OpenAI API key and model access.
-The AI implementation is currently prepared on **`feat/ai-readings`**. `main`
-and the existing GitHub Pages website remain the rule-based version until the
-real API smoke test succeeds and the AI branch is merged.
+A working deployment needs the owner's Vercel account, an OpenAI API key and model access.
+The owner's current deployment serves **`feat/ai-readings`** at
+[ming-oracle-eta.vercel.app](https://ming-oracle-eta.vercel.app/). Production
+tracks that branch. The owner's
+[environment-variable settings](https://vercel.com/elliezhangy/ming-oracle/settings/environment-variables)
+contain the server secret; saving a changed key requires a new deployment.
+Real English nature and season generation were tested using fictional inputs.
+`main` and GitHub Pages retain the earlier rule-based version.
+
+The steps below also explain how to create a separate deployment for a fork.
 
 ## Import the repository
 
@@ -125,7 +130,8 @@ readings and displays a connection message rather than stock copy.
   connectivity is steady; static hosting cannot resolve a backend timeout.
 - **Invalid AI output:** the report is rejected if its shape, dates or monthly
   uniqueness checks fail. The UI lets the user retry; it does not substitute
-  a template report.
+  a template report. A parsed report that fails shape or factual-pattern
+  validation gets at most one rewrite within the same 45-second request budget.
 
 ## Data and public usage
 

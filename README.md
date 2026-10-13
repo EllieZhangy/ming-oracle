@@ -10,15 +10,16 @@ reading offers symbolic directions and practices, not guaranteed future events.
 
 ## Website
 
-- **Existing public version · Mobile / 手机:** [The Eastern Chart](https://elliezhangy.github.io/ming-oracle/)
-- **Existing public version · Desktop / 电脑:** [The Eastern Chart](https://elliezhangy.github.io/ming-oracle/)
+- **AI website · Mobile / 手机:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
+- **AI website · Desktop / 电脑:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
+- **Earlier rule-based version:** [GitHub Pages](https://elliezhangy.github.io/ming-oracle/)
 
-Both links use the same responsive frontend on `main`; it remains the existing
-rule-based public version. The implemented AI version is on `feat/ai-readings`
-pending a configured backend and a real API smoke test. GitHub Pages cannot run
-the AI endpoint. The Pages link is not a live AI connection.
-[Deploy the full app on Vercel](docs/DEPLOY.md) to serve the website and API
-together. Merge the AI branch only after both live reading stages are verified.
+Phone and desktop use the same responsive Vercel website. Its Production
+branch is `feat/ai-readings`; the server's OpenAI key is configured in Vercel,
+never in frontend code. Real English nature and seasonal requests have been
+verified with fictional test information. `main` and GitHub Pages retain the
+earlier rule-based version.
+[Deployment and server configuration](docs/DEPLOY.md) explains the setup.
 
 ## The reading
 
@@ -56,6 +57,13 @@ provides schema-constrained responses. The configured default,
 [`gpt-4.1-mini`](https://developers.openai.com/api/docs/models/gpt-4.1-mini),
 supports the Responses API and Structured Outputs. A server environment
 variable can select another compatible model.
+
+Explicit computed element relationships and a readable chart summary guide the
+model. A narrow factual guard rejects reversed named-element relationships,
+altered Day Masters and technical hidden-stem location claims in free prose.
+A parsed invalid report can be rewritten once within the original request
+budget; persistent failures remain visible errors. These checks address known
+failure patterns and do not establish that every sentence is factually verified.
 
 The working reference adapts the MIT-licensed
 [`jinchenma94/bazi-skill`](https://github.com/jinchenma94/bazi-skill/tree/112a5d84cd1a001a0038cafca3be68d93e4c0cc9).

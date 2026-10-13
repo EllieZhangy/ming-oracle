@@ -42,6 +42,15 @@ export function calculateFacts(input, now=new Date()) {
  }));
  const visibleElementCounts=Object.fromEntries(names.map(n=>[n,pillars.reduce((sum,p)=>sum+(p.stemElement===n)+(p.branchElement===n),0)]));
  const day=stemIndex[chart.getDayGan()];
+ const elementalRelationships={
+  nourishedBy:names[(day+4)%5],generates:names[(day+1)%5],
+  controlledBy:names[(day+3)%5],controls:names[(day+2)%5],peer:names[day]
+ };
+ const dayPolarity=yin.has(chart.getDayGan())?'yin':'yang';
+ const chartSummary=[
+  `Day Master: ${chart.getDayGan()}, ${dayPolarity} ${names[day]}.`,
+  ...pillars.map(p=>`${p.position} pillar ${p.ganZhi}: stem ${p.stem} (${yin.has(p.stem)?'yin':'yang'} ${p.stemElement}); branch ${p.branch} (${p.branchElement}); hidden stems ${p.hiddenStems.map(s=>`${s.stem} (${s.element})`).join(', ')}.`)
+ ].join(' ');
  const monthRow=(year,month)=>{
   const cal=chartAt(`${year}-${String(month).padStart(2,'0')}-15`);
   const stem=cal.getMonthGan(), element=stemIndex[stem];
@@ -50,7 +59,7 @@ export function calculateFacts(input, now=new Date()) {
  const months=Array.from({length:19},(_,i)=>{const d=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth()+i,15));return monthRow(d.getUTCFullYear(),d.getUTCMonth()+1);});
  const current=chartAt(now.toISOString().slice(0,10));
  return {
-  chart:{dayMaster:{stem:chart.getDayGan(),element:names[day],polarity:yin.has(chart.getDayGan())?'yin':'yang'},pillars,visibleElementCounts,hasTime:!!input.birth.time,
+  chart:{dayMaster:{stem:chart.getDayGan(),element:names[day],polarity:dayPolarity},elementalRelationships,chartSummary,pillars,visibleElementCounts,hasTime:!!input.birth.time,
    conventions:'lunar-javascript 1.7.7; sect 2 midnight day boundary; entered civil clock; unknown time uses noon for available pillars and omits all Hour data.',
    limitations:['Birth city is context only; timezone, DST, local solar-term conversion and apparent solar time are not corrected.','Visible element counts are unweighted labels; hidden stems are not included in these counts. Counts do not establish strength, deficiency or favorable elements.','No gendered fate rules, luck-cycle calculation, partner chart, Western natal chart, or full strength/favorability assessment.']},
   horizon:{asOf:now.toISOString().slice(0,10),currentYearStem:current.getYearGan(),currentYearBranch:current.getYearZhi(),months:months.slice(0,3),futureMonths:months.slice(1),conventions:'Civil month labels anchored on the 15th at noon, not solar-term month boundaries. Report month is based on server UTC date.'}
