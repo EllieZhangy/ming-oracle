@@ -2,8 +2,8 @@
 
 ## Open the website
 
-- **Mobile：** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
-- **Desktop：** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
+- **Mobile:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
+- **Desktop:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
 
 Both links use the same responsive Vercel website; the layout adapts to your screen.
 
