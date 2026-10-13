@@ -31,12 +31,15 @@ js=(p/'app.js').read_text()
 refs=set(re.findall(r"\$\('([^']+)'\)",js))
 assert refs<=set(h.ids), refs-set(h.ids)
 for src in h.scripts:assert (p/src).is_file()
-assert h.scripts==['vendor/lunar.js','topics.js','oracle.js','glyphs.js','motion.js','app.js']
+assert h.scripts==['vendor/lunar.js','topics.js','oracle.js','glyphs.js','motion.js','config.js','ai-client.js','app.js']
 for key in h.copy:assert len(re.findall(r'\b'+re.escape(key)+r':',js))==2, key
 assert 'Three questions to sit with' not in js
 assert 'What do you know for certain' not in js
 assert 'There is no clear month' not in js
 assert 'window.print()' in js
+assert 'MingOracle.personalities' not in js and 'MingOracle.monthReading' not in js
+assert 'Nothing is uploaded' not in js and '尚未分析其语义' not in js
+assert {'nature-ai-status','season-ai-status','nature-retry','season-retry','season-content'}<=set(h.ids)
 css=(p/'style.css').read_text()
 assert '@media print' in css and 'body.print-ready' in css
 print('Passed: three-page structure, six accessible topic buttons, no direction dropdown, bilingual labels, references and script order.')

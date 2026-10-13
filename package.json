@@ -1,0 +1,12 @@
+{
+ "name":"ming-oracle",
+ "version":"0.2.0",
+ "private":true,
+ "description":"AI-powered Eastern astrology with computed BaZi and personal context",
+ "scripts":{
+  "start":"node --env-file-if-exists=.env server.mjs",
+  "test":"node tests/oracle.test.cjs && node tests/month_engine.test.cjs && node tests/motion.test.cjs && node tests/ai-client.test.cjs && node --test tests/ai-service.test.mjs && python3 tests/structure.test.py",
+  "build":"node scripts/build-static.mjs"
+ },
+ "engines":{"node":">=22"}
+}
