@@ -13,7 +13,6 @@ self-reflection through symbolic directions and practices.
 
 - **Website · Mobile:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
 - **Website · Desktop:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
-- **Earlier rule-based version:** [GitHub Pages](https://elliezhangy.github.io/ming-oracle/)
 
 Phone and desktop use the same responsive Vercel website. Its Production
 branch is `main`; the server's OpenAI key is configured in Vercel,
