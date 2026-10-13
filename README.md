@@ -1,4 +1,4 @@
-# Ming Atlas
+# Ming Oracle
 
 **Discover the element within you.** A bilingual web experience inspired by
 Eastern astrology, with birth-element readings, symbolic reflections, and
@@ -178,3 +178,10 @@ The bundled calendar library's MIT notice is in
 [`vendor/LICENSE.lunar-javascript`](vendor/LICENSE.lunar-javascript), and the
 adapted BaZi skill's MIT notice is in
 [`ai/references/bazi-skill.LICENSE`](ai/references/bazi-skill.LICENSE).
+
+## Selected work
+
+- [AI Driving School](https://elliezhangy.github.io/ai-driving-school/) — a voice- and text-controlled Chinese parking game.
+- [Daily Mood Screen](https://github.com/EllieZhangy/Daily-Mood-Screen) — a personalized macOS wallpaper pipeline using weather, photos, and mood.
+- [Memory Studio](https://github.com/EllieZhangy/memory-studio) — a photo-to-poster web app with reusable visual styles.
+- [Radiology Impression Prediction](https://github.com/EllieZhangy/LLM-Based-Impression-Prediction-from-Radiology-Reports) — an LLM research project for radiology report impression generation.
