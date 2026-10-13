@@ -11,8 +11,8 @@ self-reflection through symbolic directions and practices.
 
 ## Website
 
-- **Website · Mobile / 手机:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
-- **Website · Desktop / 电脑:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
+- **Website · Mobile:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
+- **Website · Desktop:** [The Eastern Chart](https://ming-oracle-eta.vercel.app/)
 - **Earlier rule-based version:** [GitHub Pages](https://elliezhangy.github.io/ming-oracle/)
 
 Phone and desktop use the same responsive Vercel website. Its Production
