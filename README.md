@@ -2,12 +2,24 @@
 
 ## Open the website
 
-- **Mobile：** [Discover Your Birth Chart](https://elliezhangy.github.io/ming-oracle/)
-- **Desktop：** [Discover Your Birth Chart](https://elliezhangy.github.io/ming-oracle/)
+- **Mobile：** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
+- **Desktop：** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
 
-Both links use the same responsive website; the layout adapts to your screen.
+Both links use the same responsive Vercel website; the layout adapts to your screen.
 
-**The Element Within You.** Explore your nature through the five elements—an ancient lens on a modern life. A bilingual, browser-only Chinese five-element reflection app, with responsive phone and desktop layouts. Open `index.html` directly. No API key, package installation or build is required.
+[Earlier rule-based version on GitHub Pages](https://elliezhangy.github.io/ming-oracle/).
+
+**Discover the element within you.** A bilingual web experience inspired by Eastern astrology, with birth-element readings, symbolic reflections, and subtle ink-inspired interactions.
+
+The live Vercel website uses [`feat/ai-readings`](https://github.com/EllieZhangy/ming-oracle/tree/feat/ai-readings). It combines a server-calculated preliminary BaZi chart with the visitor's own words and chosen area to create a personal interpretation through OpenAI. The existing three-page flow, six areas, bilingual controls and optional PDF export remain. A quiet indeterminate progress line and approximate 30-second wait message accompany generation; the line does not represent a measured completion percentage.
+
+The server API key is configured in Vercel, never in browser code. Generating an interpretation sends chart facts and the visitor's words through the server to OpenAI; reports stay in the current page's memory. The reading is symbolic cultural exploration, not a guarantee of future events.
+
+For local server setup, deployment, sources and calculation limits, see the [current implementation README](https://github.com/EllieZhangy/ming-oracle/blob/feat/ai-readings/README.md) and [Vercel deployment guide](https://github.com/EllieZhangy/ming-oracle/blob/feat/ai-readings/docs/DEPLOY.md).
+
+## Earlier local source on main
+
+The default `main` branch and GitHub Pages still contain the earlier rule-based version. The sections below describe that source version. It can open `index.html` directly without an API key, package installation or build; opening that file does not provide the live personalized interpretation service.
 
 ## Three-page flow
 
@@ -50,4 +62,4 @@ Checks cover a published reference chart, midnight / unknown-time cases, date va
 
 ## Next
 
-Verify an international birth-time pipeline and independent boundary fixtures before presenting complete charts. Add licensed classical sources and server-side AI interpretation with a strict distinction between computed facts and creative language. Keep API keys out of browser code.
+Verify an international birth-time pipeline and independent boundary fixtures before presenting complete charts. Server-side interpretation and a licensed BaZi skill reference are live on `feat/ai-readings`; full classical-text retrieval and complete luck-cycle analysis remain outside this release. Keep API keys out of browser code.
