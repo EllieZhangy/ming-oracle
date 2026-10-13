@@ -1,65 +1,169 @@
 # Ming Atlas
 
-## Open the website
+**Discover the element within you.** A bilingual web experience inspired by
+Eastern astrology, with birth-element readings, symbolic reflections, and
+subtle ink-inspired interactions.
 
-- **Mobile:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
-- **Desktop:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
+Bring your birth details and a word, feeling or current situation. Explore
+your elemental nature and a personal seasonal reflection, framed by a quiet
+ink-and-paper aesthetic. Readings support cultural exploration and
+self-reflection through symbolic directions and practices.
 
-Both links use the same responsive Vercel website; the layout adapts to your screen.
+## Website
 
-[Earlier rule-based version on GitHub Pages](https://elliezhangy.github.io/ming-oracle/).
+- **Website · Mobile:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
+- **Website · Desktop:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
+- **Earlier rule-based version:** [GitHub Pages](https://elliezhangy.github.io/ming-oracle/)
 
-**Discover the element within you.** A bilingual web experience inspired by Eastern astrology, with birth-element readings, symbolic reflections, and subtle ink-inspired interactions.
+Phone and desktop use the same responsive Vercel website. Its Production
+branch is `main`; the server's OpenAI key is configured in Vercel,
+never in frontend code. Real English nature and seasonal requests have been
+verified with fictional test information. The `legacy-static` branch and
+GitHub Pages preserve the earlier rule-based version.
+[Deployment and server configuration](docs/DEPLOY.md) explains the setup.
 
-The live Vercel website uses [`feat/ai-readings`](https://github.com/EllieZhangy/ming-oracle/tree/feat/ai-readings). It combines a server-calculated preliminary BaZi chart with the visitor's own words and chosen area to create a personal interpretation through OpenAI. The existing three-page flow, six areas, bilingual controls and optional PDF export remain. A quiet indeterminate progress line and approximate 30-second wait message accompany generation; the line does not represent a measured completion percentage.
+## Versions and branches
 
-The server API key is configured in Vercel, never in browser code. Generating an interpretation sends chart facts and the visitor's words through the server to OpenAI; reports stay in the current page's memory. The reading is symbolic cultural exploration, not a guarantee of future events.
+- `main`: the current application and the Vercel Production branch.
+- [`v0.2.0`](https://github.com/EllieZhangy/ming-oracle/releases/tag/v0.2.0): Personal Elemental Reflections.
+- [`legacy-static`](https://github.com/EllieZhangy/ming-oracle/tree/legacy-static): the archived browser-only edition, also published on GitHub Pages.
+- [`v0.1.0`](https://github.com/EllieZhangy/ming-oracle/releases/tag/v0.1.0): Legacy Static Edition.
 
-For local server setup, deployment, sources and calculation limits, see the [current implementation README](https://github.com/EllieZhangy/ming-oracle/blob/feat/ai-readings/README.md) and [Vercel deployment guide](https://github.com/EllieZhangy/ming-oracle/blob/feat/ai-readings/docs/DEPLOY.md).
+Develop future changes on short-lived feature branches and merge them into
+`main` after validation. GitHub Releases mark source snapshots; Vercel hosts
+the current website and server. The legacy edition does not call the server
+or interpret the visitor's words with AI.
 
-## Earlier local source on main
+## The reading
 
-The default `main` branch and GitHub Pages still contain the earlier rule-based version. The sections below describe that source version. It can open `index.html` directly without an API key, package installation or build; opening that file does not provide the live personalized interpretation service.
+1. **Birth & intention:** enter a birth date, optional time and city, and what
+   is on your mind.
+2. **Your elemental nature:** see the preliminary pillars and Day Master, with
+   a personal interpretation of the chart and your words. Choose Health, Love,
+   Family, Career, Study or Wealth.
+3. **Your present season & three-month rhythm:** receive a focused reading of
+   that area, a dated symbolic opening, three distinct monthly directions,
+   an alignment practice and a boundary to keep.
 
-## Three-page flow
+A quiet indeterminate progress line and an approximate 30-second wait message
+accompany generation; the line does not claim a completion percentage. If it
+takes longer, the message updates. Navigation, cancellation and failures stop
+the loading indicator.
 
-1. **Birth & intention**: date, optional birth time / city, and a word or question. No direction selector.
-2. **Your elemental nature**: preliminary pillars and Day Master archetype, then six buttons: Health, Love, Family, Career, Study, Wealth. Select one and continue.
-3. **Your present season & three-month rhythm**: selected-area symbolic outlook, a suggested monthly window, three monthly cards, practical alignment and topic-specific cautions. No generic reflection questionnaire.
+The report structure is preserved; the interpretation comes from AI
+instead of assembled stock paragraphs. English and Chinese are supported.
+The 01 / 02 / 03 controls navigate between steps, and completed readings stay
+available in the current page's memory. Loading and connection errors are
+shown explicitly. A failed AI request is not silently replaced with templates.
 
-The top 01 / 02 / 03 buttons navigate directly to completed steps. Missing information opens the form or topic selection. Back navigation preserves birth inputs and selection. Language switching preserves the page and reading. You can choose another area without entering birth information again. Text export contains nature, selected-area report and methodology. The report ends with an optional **Save as PDF** button. The app never opens the print dialog or saves a file automatically when a reading is generated. Only clicking this button (or using the browser’s print command) opens the print dialog, where you can choose **Save as PDF**. A separate A4 print layout includes the full report and calculation notes. Mobile printing depends on the browser; the same URL adapts to either screen size.
+The report ends with optional **Save as PDF** and text-download controls.
+PDF saving opens the browser's print dialog only when requested; select
+**Save as PDF** there. The dedicated print layout includes the full completed
+report and method notes. Mobile print support depends on the browser.
+
+## How AI and BaZi work together
+
+The server calculates pillars, hidden stems, ten-god relationships and monthly
+anchors using bundled `lunar-javascript` 1.7.7. It supplies those facts, the
+visitor's situation and a curated BaZi skill reference to OpenAI. AI interprets
+the supplied facts; it does not invent or overwrite the birth chart.
+
+The implementation uses the Responses API with a strict JSON schema, followed
+by application validation of sections, dates and distinct monthly copy.
+[OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=responses)
+provides schema-constrained responses. The configured default,
+[`gpt-4.1-mini`](https://developers.openai.com/api/docs/models/gpt-4.1-mini),
+supports the Responses API and Structured Outputs. A server environment
+variable can select another compatible model.
+
+Explicit computed element relationships and a readable chart summary guide the
+model. A narrow factual guard rejects reversed named-element relationships,
+altered Day Masters and technical hidden-stem location claims in free prose.
+A parsed invalid report can be rewritten once within the original request
+budget; persistent failures remain visible errors. These checks address known
+failure patterns and do not establish that every sentence is factually verified.
+
+The working reference adapts the MIT-licensed
+[`jinchenma94/bazi-skill`](https://github.com/jinchenma94/bazi-skill/tree/112a5d84cd1a001a0038cafca3be68d93e4c0cc9).
+Its calculation-first workflow, element/polarity relationships and contextual
+reading principles are translated into original English instructions. See
+[source provenance and licensing](docs/SOURCES.md) for all five repositories
+reviewed, what is actually integrated and what is excluded. This release does
+not provide live classical-text retrieval or unrelated divination modules.
+
+## Run locally
+
+Use Node.js 22 or newer. There are no npm package dependencies. Python 3 is
+needed only for the existing page-structure test.
+
+```sh
+git clone --branch main https://github.com/EllieZhangy/ming-oracle.git
+cd ming-oracle
+cp .env.example .env
+```
+
+Edit the ignored `.env` locally and set `OPENAI_API_KEY`. Keep the key out of
+frontend files and GitHub. Then run:
+
+```sh
+npm start
+```
+
+Open **http://localhost:8787**. The start command loads `.env` if present.
+Without a configured key, the frontend still calculates the preliminary
+element, but AI generation returns a clear connection error. Opening
+`index.html` as a local file does not provide an AI server.
+
+```sh
+npm test
+npm run build
+```
+
+Tests exercise chart boundaries, month logic, motion, request/response
+validation, error handling and page structure. Provider calls are mocked;
+passing tests does not establish live account access or reading quality.
+The build copies only frontend assets to `dist/`; server modules and secrets
+are excluded from the static output.
+
+## Privacy and scope
+
+Generating a reading sends birth date, optional time/city, words, area and
+language from the browser to the server. The server sends the calculated
+chart, city context, words, area and language to OpenAI. Requests use
+`store: false`; that setting is not a promise of zero provider retention.
+[OpenAI data controls](https://developers.openai.com/api/docs/guides/your-data)
+describe the applicable retention policies. The app adds no database,
+analytics or persistent reading storage; its reading cache is page memory.
+Hosting and provider infrastructure have their own data policies. Optional
+Google Fonts requests do not include form contents.
+
+- Dates use the entered civil clock and a midnight day boundary. Unknown time
+  provisionally uses noon for the available pillars and omits the hour pillar.
+- City is contextual; overseas timezone, daylight saving, local solar-term
+  conversion and apparent solar time are not corrected. The chart is preliminary.
+- The Day Master element is not a verified dominant or favorable element.
+  Visible counts do not establish strength, deficiency or a complete personality.
+- Monthly anchors use noon on the 15th of each civil month, with an 18-month
+  later horizon and a server UTC report date. Windows suggest times for action
+  or observation; they do not establish the date of a future event.
+- No major luck cycles, complete strength/favorability assessment, partner
+  compatibility or Western natal chart are calculated.
+- Health concerns everyday wellbeing; Wealth concerns resource stewardship.
+  The app does not diagnose, prescribe or make investment predictions.
+
+The API has a best-effort in-memory limit of eight requests per minute per
+visitor and four concurrent generations per warm instance. It is not a global
+quota across serverless instances. See the [deployment guide](docs/DEPLOY.md)
+for platform controls before broader public use.
 
 ## Visual identity
 
-The paper, muted green and gold palette is preserved. The calculated Day Master selects a subtle pine, flame scroll, mountain, bronze mirror or water motif on result pages. These original SVG ornaments are lightweight, decorative and hidden in PDF printing.
+Paper, muted green and gold frame subtle elemental SVG motifs: pine, flame,
+mountains, bronze mirror and flowing water. Hover or tap an element to let its
+symbol unfold once, then return to the text. Touch, keyboard and reduced-motion
+preferences are supported; decorative animation is hidden in print.
 
-## Element interactions
-
-Hover or click the character seal or element name to reveal a small, original ink motif. Wood grows a pine; Fire breathes softly; Earth draws mountain lines; Metal gives a mirror glint; Water reveals ripples. Each effect runs once for three seconds, then returns to the text. Touch and keyboard activation are supported. Repeated inputs do not stack; navigation and element changes cancel old playback. Reduced-motion preferences keep the text static. PDF saving remains optional and user-triggered.
-
-## Calculation and interpretation boundaries
-
-- Bundled `lunar-javascript` 1.7.7 (MIT), https://github.com/6tail/lunar-javascript. License in `vendor/LICENSE.lunar-javascript`.
-- Gregorian dates 1900–2100, civil clock input and sect 2 / midnight day boundary. Missing time uses noon provisionally and omits the hour pillar.
-- Birth city is collected but not used. Overseas timezone, DST, local solar-term boundaries and apparent solar time are not corrected. The chart is preliminary, especially near boundaries.
-- The Day Master stem determines the element, not dominant element, strength, favorable elements or a validated personality classification.
-- Monthly lens: for each of the current and next two civil months, sample the 15th at noon, obtain its month-stem element and compare with the Day Master using generation/control relationships. This is a simplified original symbolic system. It does not calculate full BaZi, ten-god favorability, luck cycles, actual difficulty, a monthly turning point or event probabilities. Solar-term months do not coincide with civil month boundaries.
-- Titles, moods and actions vary by topic and symbolic relationship, with separate original voices for yin and yang stems so consecutive same-element months no longer repeat. Health discusses everyday wellbeing, not diagnosis or treatment. Wealth discusses resource organization and spending habits, not financial predictions.
-- A later support/peer/expression month is called a symbolic action window. The search covers the next 18 future months and displays the actual matching month/year, even if it lies beyond the three visible cards. Relationships are not inherently good/bad in full BaZi.
-- The submitted phrase is shown as an intention, not semantically analyzed. No AI or classical-text retrieval is connected. All report copy is original.
-- Inputs stay in browser memory; no data submission, analytics or persistence. Google Fonts makes an optional font request without form data.
-
-## Verify
-
-```sh
-node tests/oracle.test.cjs
-node tests/month_engine.test.cjs
-node tests/motion.test.cjs
-python3 tests/structure.test.py
-```
-
-Checks cover a published reference chart, midnight / unknown-time cases, date validation, generation/control relations, bilingual topic coverage, month rollover and static page structure. These checks also cover same-element duplicate text, longer-range windows and clickable navigation structure. Browser interaction and print-layout checks are separate.
-
-## Next
-
-Verify an international birth-time pipeline and independent boundary fixtures before presenting complete charts. Server-side interpretation and a licensed BaZi skill reference are live on `feat/ai-readings`; full classical-text retrieval and complete luck-cycle analysis remain outside this release. Keep API keys out of browser code.
+The bundled calendar library's MIT notice is in
+[`vendor/LICENSE.lunar-javascript`](vendor/LICENSE.lunar-javascript), and the
+adapted BaZi skill's MIT notice is in
+[`ai/references/bazi-skill.LICENSE`](ai/references/bazi-skill.LICENSE).
