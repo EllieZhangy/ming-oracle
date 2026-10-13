@@ -9,6 +9,18 @@ your elemental nature and a personal seasonal reflection, framed by a quiet
 ink-and-paper aesthetic. Readings support cultural exploration and
 self-reflection through symbolic directions and practices.
 
+## Demo
+
+A silent walkthrough of birth details, elemental nature, a chosen life area,
+and a personal three-month reflection.
+
+![Ming Oracle silent walkthrough with English captions](docs/demo/ming-oracle-demo.gif)
+
+[Watch or download the silent MP4](docs/demo/ming-oracle-demo.mp4)
+
+Captured from the live website using fictional example details. Generation
+waits and transitions are shortened for clarity. Individual interpretations vary.
+
 ## Website
 
 - **Website · Mobile:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
