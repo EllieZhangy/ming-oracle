@@ -1,5 +1,7 @@
 # Ming Atlas
 
+> Archived static edition. The current application is maintained on [main](https://github.com/EllieZhangy/ming-oracle/tree/main) and hosted on Vercel. This branch preserves the original browser-only experience as [v0.1.0](https://github.com/EllieZhangy/ming-oracle/releases/tag/v0.1.0).
+
 ## Open the website
 
 - **Mobile:** [Discover Your Birth Chart](https://ming-oracle-eta.vercel.app/)
@@ -11,15 +13,15 @@ Both links use the same responsive Vercel website; the layout adapts to your scr
 
 **Discover the element within you.** A bilingual web experience inspired by Eastern astrology, with birth-element readings, symbolic reflections, and subtle ink-inspired interactions.
 
-The live Vercel website uses [`feat/ai-readings`](https://github.com/EllieZhangy/ming-oracle/tree/feat/ai-readings). It combines a server-calculated preliminary BaZi chart with the visitor's own words and chosen area to create a personal interpretation through OpenAI. The existing three-page flow, six areas, bilingual controls and optional PDF export remain. A quiet indeterminate progress line and approximate 30-second wait message accompany generation; the line does not represent a measured completion percentage.
+The current Vercel website uses [`main`](https://github.com/EllieZhangy/ming-oracle/tree/main). It combines a server-calculated preliminary BaZi chart with the visitor's own words and chosen area to create a personal interpretation through OpenAI. The existing three-page flow, six areas, bilingual controls and optional PDF export remain. A quiet indeterminate progress line and approximate 30-second wait message accompany generation; the line does not represent a measured completion percentage.
 
 The server API key is configured in Vercel, never in browser code. Generating an interpretation sends chart facts and the visitor's words through the server to OpenAI; reports stay in the current page's memory. The reading is symbolic cultural exploration, not a guarantee of future events.
 
-For local server setup, deployment, sources and calculation limits, see the [current implementation README](https://github.com/EllieZhangy/ming-oracle/blob/feat/ai-readings/README.md) and [Vercel deployment guide](https://github.com/EllieZhangy/ming-oracle/blob/feat/ai-readings/docs/DEPLOY.md).
+For local server setup, deployment, sources and calculation limits, see the [current implementation README](https://github.com/EllieZhangy/ming-oracle/blob/main/README.md) and [Vercel deployment guide](https://github.com/EllieZhangy/ming-oracle/blob/main/docs/DEPLOY.md).
 
-## Earlier local source on main
+## Archived static source on legacy-static
 
-The default `main` branch and GitHub Pages still contain the earlier rule-based version. The sections below describe that source version. It can open `index.html` directly without an API key, package installation or build; opening that file does not provide the live personalized interpretation service.
+The `legacy-static` branch and GitHub Pages contain the earlier rule-based version. The sections below describe this archived source version. It can open `index.html` directly without an API key, package installation or build; opening that file does not provide the current personalized interpretation service.
 
 ## Three-page flow
 
@@ -62,4 +64,4 @@ Checks cover a published reference chart, midnight / unknown-time cases, date va
 
 ## Next
 
-Verify an international birth-time pipeline and independent boundary fixtures before presenting complete charts. Server-side interpretation and a licensed BaZi skill reference are live on `feat/ai-readings`; full classical-text retrieval and complete luck-cycle analysis remain outside this release. Keep API keys out of browser code.
+Verify an international birth-time pipeline and independent boundary fixtures before presenting complete charts. Server-side interpretation and a licensed BaZi skill reference are maintained on `main`; full classical-text retrieval and complete luck-cycle analysis remain outside that release. Keep API keys out of browser code.
